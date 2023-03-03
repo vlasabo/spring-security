@@ -13,7 +13,7 @@ public class UserRestController {
     private final List<User> users;
     UserRestController() {
         users = new ArrayList<>();
-        for (long i = 0; i < 5; i++) {
+        for (long i = 0; i < 3; i++) {
             users.add(new User(i, "name" + i, "lastName" + i));
         }
     }
