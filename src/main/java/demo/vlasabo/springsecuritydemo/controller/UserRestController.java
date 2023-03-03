@@ -1,10 +1,7 @@
 package demo.vlasabo.springsecuritydemo.controller;
 
 import demo.vlasabo.springsecuritydemo.model.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,5 +28,16 @@ public class UserRestController {
         return users.stream()
                 .filter(user -> Objects.equals(user.getId(), id))
                 .findFirst().orElse(null);
+    }
+
+    @PostMapping("/add")
+    public User create(@RequestBody User user){
+        users.add(user);
+        return user;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id){
+        users.removeIf(user -> Objects.equals(user.getId(), id));
     }
 }
