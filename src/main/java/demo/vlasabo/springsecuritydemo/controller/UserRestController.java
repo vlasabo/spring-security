@@ -12,6 +12,7 @@ import java.util.Objects;
 @RequestMapping("/api/v1/users")
 public class UserRestController {
     private final List<User> users;
+
     UserRestController() {
         users = new ArrayList<>();
         for (long i = 0; i < 3; i++) {
@@ -22,7 +23,7 @@ public class UserRestController {
     @GetMapping
     @PreAuthorize("hasAuthority('users:read')")
     public List<User> getAll() {
-        return users ;
+        return users;
     }
 
     @GetMapping("/{id}")
@@ -35,14 +36,14 @@ public class UserRestController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('users:write')")
-    public User create(@RequestBody User user){
+    public User create(@RequestBody User user) {
         users.add(user);
         return user;
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('users:write')")
-    public void deleteById(@PathVariable Long id){
+    public void deleteById(@PathVariable Long id) {
         users.removeIf(user -> Objects.equals(user.getId(), id));
     }
 }
