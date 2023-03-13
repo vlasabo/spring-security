@@ -1,6 +1,6 @@
 package demo.vlasabo.springsecuritydemo.controller;
 
-import demo.vlasabo.springsecuritydemo.model.User;
+import demo.vlasabo.springsecuritydemo.model.Person;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,39 +11,39 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserRestController {
-    private final List<User> users;
+    private final List<Person> people;
 
     UserRestController() {
-        users = new ArrayList<>();
+        people = new ArrayList<>();
         for (long i = 0; i < 3; i++) {
-            users.add(new User(i, "name" + i, "lastName" + i));
+            people.add(new Person(i, "name" + i, "lastName" + i));
         }
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('users:read')")
-    public List<User> getAll() {
-        return users;
+    public List<Person> getAll() {
+        return people;
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('users:read')")
-    public User getById(@PathVariable Long id) {
-        return users.stream()
-                .filter(user -> Objects.equals(user.getId(), id))
+    public Person getById(@PathVariable Long id) {
+        return people.stream()
+                .filter(person -> Objects.equals(person.getId(), id))
                 .findFirst().orElse(null);
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('users:write')")
-    public User create(@RequestBody User user) {
-        users.add(user);
-        return user;
+    public Person create(@RequestBody Person person) {
+        people.add(person);
+        return person;
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('users:write')")
     public void deleteById(@PathVariable Long id) {
-        users.removeIf(user -> Objects.equals(user.getId(), id));
+        people.removeIf(person -> Objects.equals(person.getId(), id));
     }
 }
